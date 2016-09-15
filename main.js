@@ -4,6 +4,8 @@ var inquirer = require('inquirer');
 var currentWord = '';
 var guessedWord = '';
 var count = 0;
+var wins = 0;
+var losses = 0;
 var word;
 var game;
 
@@ -37,8 +39,11 @@ var askGuess = function() {
                 word.searchWord(letter.guess.toLowerCase());
                 var guessedWord = word.getGuessedWord();
                 if (guessedWord === currentWord) {
+                    wins++;
                     console.log(guessedWord);
                     console.log("You successfully guessed the word!");
+                    console.log("Wins: " + wins);
+                    console.log("Losses: " + losses);
                     inquirer.prompt([
                     {
                         type: "list",
@@ -67,7 +72,10 @@ var askGuess = function() {
                 }
             });
     } else {
+        losses++;
         console.log('Game Over!  You filaed to guess in 10 tries.');
+        console.log("Wins: " + wins);
+        console.log("Losses: " + losses);
         inquirer.prompt([
         {
             type: "list",
