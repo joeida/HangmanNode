@@ -36,7 +36,9 @@ var askGuess = function() {
                     console.log(guessedWord);
                     console.log("You successfully guessed the word!");
                 } else {
+                    var guessLeft = 10 - count;
                     console.log(guessedWord);
+                    console.log('You have ' + guessLeft + ' left.');
                     console.log("Please choose again");
                     askGuess();
                 }
