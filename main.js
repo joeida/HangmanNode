@@ -15,6 +15,10 @@ var startGame = function() {
 
 var askGuess = function() {
     if (count < 10) {
+        if (count === 0) {
+            var initialWord = word.getGuessedWord();
+            console.log(initialWord);
+        }
         inquirer.prompt([
             {
                 name: "guess",
