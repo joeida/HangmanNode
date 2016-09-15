@@ -39,6 +39,25 @@ var askGuess = function() {
                 if (guessedWord === currentWord) {
                     console.log(guessedWord);
                     console.log("You successfully guessed the word!");
+                    inquirer.prompt([
+                    {
+                        type: "list",
+                        message: "Would you like to play again?",
+                        choices: ["yes", "no"],
+                        name: "answer",
+
+                    }
+                    ]).then(function(answer) {
+                        if (answer.answer === "yes") {
+                            console.log("Starting new game!");
+                            count = 0;
+                            currentWord = game.chooseWord();
+                            word = new Word(currentWord);
+                            askGuess();
+                        } else {
+                            console.log("Thanks for playing!  See you later.")
+                        }
+                    });
                 } else {
                     var guessLeft = 10 - count;
                     console.log(guessedWord);
@@ -48,7 +67,26 @@ var askGuess = function() {
                 }
             });
     } else {
-        console.log('Your 10 guesses are done');
+        console.log('Game Over!  You filaed to guess in 10 tries.');
+        inquirer.prompt([
+        {
+            type: "list",
+            message: "Would you like to play again?",
+            choices: ["yes", "no"],
+            name: "answer",
+
+        }
+        ]).then(function(answer) {
+            if (answer.answer === "yes") {
+                console.log("Starting new game!");
+                count = 0;
+                currentWord = game.chooseWord();
+                word = new Word(currentWord);
+                askGuess();
+            } else {
+                console.log("Thanks for playing!  See you later.")
+            }
+        });
     }
 }
 
