@@ -1,4 +1,3 @@
-var Letter = require('./letter.js');
 var Word = require('./word.js');
 var Game = require('./game.js');
 var inquirer = require('inquirer');
@@ -18,18 +17,27 @@ var askGuess = function() {
     if (count < 10) {
         inquirer.prompt([
             {
-                type: "list",
-                message: "guess letter",
-                choices: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" ],
-                name: "guess"
+                name: "guess",
+                message: "Guess letter:",
+                validate: function(value) {
+                    if (value.length === 1 && value.match(/[a-z]/i)) {
+                        return true;
+                    } else {
+                        console.log("\nPlease try entering a valid letter.");
+                        return false;
+                    }
+                }
             }
             ]).then(function (letter) {
                 count++;
-                guessedWord = word.searchLettersGuessed(letter.guess);
+                word.searchWord(letter.guess.toLowerCase());
+                var guessedWord = word.getGuessedWord();
                 if (guessedWord === currentWord) {
+                    console.log(guessedWord);
                     console.log("You successfully guessed the word!");
                 } else {
                     console.log(guessedWord);
+                    console.log("Please choose again");
                     askGuess();
                 }
             });
