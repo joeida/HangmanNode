@@ -60,6 +60,8 @@ var askGuess = function() {
                             if (answer.answer === "yes") {
                                 console.log("Starting new game!");
                                 count = 0;
+                                guessedWord = '';
+                                lettersChosenArray = [];
                                 currentWord = game.chooseWord();
                                 word = new Word(currentWord);
                                 askGuess();
