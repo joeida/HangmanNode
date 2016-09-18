@@ -7,7 +7,9 @@ var count = 0;
 var wins = 0;
 var losses = 0;
 var word;
+var guessedWord;
 var game;
+var lettersChosenArray = [];
 
 var startGame = function() {
     game = new Game();
@@ -35,39 +37,48 @@ var askGuess = function() {
                 }
             }
             ]).then(function (letter) {
-                count++;
-                word.searchWord(letter.guess.toLowerCase());
-                var guessedWord = word.getGuessedWord();
-                if (guessedWord === currentWord) {
-                    wins++;
-                    console.log(guessedWord);
-                    console.log("You successfully guessed the word!");
-                    console.log("Wins: " + wins);
-                    console.log("Losses: " + losses);
-                    inquirer.prompt([
-                    {
-                        type: "list",
-                        message: "Would you like to play again?",
-                        choices: ["yes", "no"],
-                        name: "answer",
+                if (lettersChosenArray.indexOf(letter.guess) === -1) {
+                    lettersChosenArray.push(letter.guess);
+                    count++;
+                    word.searchWord(letter.guess.toLowerCase());
+                    guessedWord = word.getGuessedWord();
+                    if (guessedWord === currentWord) {
+                        wins++;
+                        console.log(guessedWord);
+                        console.log("You successfully guessed the word!");
+                        console.log("Wins: " + wins);
+                        console.log("Losses: " + losses);
+                        inquirer.prompt([
+                        {
+                            type: "list",
+                            message: "Would you like to play again?",
+                            choices: ["yes", "no"],
+                            name: "answer",
 
-                    }
-                    ]).then(function(answer) {
-                        if (answer.answer === "yes") {
-                            console.log("Starting new game!");
-                            count = 0;
-                            currentWord = game.chooseWord();
-                            word = new Word(currentWord);
-                            askGuess();
-                        } else {
-                            console.log("Thanks for playing!  See you later.")
                         }
-                    });
+                        ]).then(function(answer) {
+                            if (answer.answer === "yes") {
+                                console.log("Starting new game!");
+                                count = 0;
+                                currentWord = game.chooseWord();
+                                word = new Word(currentWord);
+                                askGuess();
+                            } else {
+                                console.log("Thanks for playing!  See you later.")
+                            }
+                        });
+                    } else {
+                        var guessLeft = 10 - count;
+                        console.log(guessedWord);
+                        console.log('You have ' + guessLeft + ' left.');
+                        console.log("Please choose again");
+                        askGuess();
+                    }
                 } else {
-                    var guessLeft = 10 - count;
+                    var guessLeft = 10 - count; 
                     console.log(guessedWord);
                     console.log('You have ' + guessLeft + ' left.');
-                    console.log("Please choose again");
+                    console.log("You've already chose that letter.  Please choose again.");
                     askGuess();
                 }
             });
@@ -88,6 +99,8 @@ var askGuess = function() {
             if (answer.answer === "yes") {
                 console.log("Starting new game!");
                 count = 0;
+                guessedWord = '';
+                lettersChosenArray = [];
                 currentWord = game.chooseWord();
                 word = new Word(currentWord);
                 askGuess();
