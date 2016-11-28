@@ -4,7 +4,7 @@
 * Create command line basic Hangman game.
 
 ### Objective
-* Use node.js to create a command line basic Hangman game.
+* Demonstrate the use of node.js in the creation of a command line basic Hangman game.
   1. Use word constructor to hold methods for checking letters guessed versus the random word selected.
   2. Use letter constructor to control whether or not a letter appears as a “_” or as itself on screen.
   3. Use game file to randomly select a word for the player.
